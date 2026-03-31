@@ -34,7 +34,7 @@ we create the the directory
 mkdir C:\Hadoop
 ```
 
-then run the following command to unzip (or use 7zip):
+then run the following command to unzip:
 
 ```
 tar -xvzf  hadoop-3.3.0.tar.gz -C C:\Hadoop\
@@ -48,17 +48,36 @@ After the unzip command is completed we have to install the Java.
 
 Java is required to run Hadoop. If you have not installed Java , please install it.
 
-You can install Java 8 from the following page [here](https://www.oracle.com/anz/java/technologies/javase/javase8u211-later-archive-downloads.html). I am choosing the Java **SE Runtime Environment** and I choose the latest Windows X64 Installer version by 
-https://download.oracle.com/otn/java/jdk/8u471-b09/99a6cb9582554a09bd4ac60f73f9b8e6/jre-8u471-windows-x64.exe?AuthParam=1774934962_704957ea88ee3f45c0dc25085d6317ad
+You can install Java 8 from the following page [here](https://www.oracle.com/it/java/technologies/javase/javase8-archive-downloads.html#license-lightbox). I am choosing the Java **SE Runtime Environment** and I choose the Windows X64 version by 
+https://javadl.oracle.com/webapps/download/AutoDL?BundleId=247948_0ae14417abb444ebb02b9815e2103550
 
-After finishing the file download we install the package to the default location
+After finishing the file download we open a new command prompt, we should unpack the package
+
+```
+cd Downloads 
+```
+
+Because I am installing Java in folder Java of my C drive (C:\Java) 
+
+we create the the directory
+
+```
+mkdir C:\Java
+```
+
+then run the following command to unzip:
+
+```
+tar -xvzf  jre-8u361-windows-x64.tar.gz -C C:\Java\
+```
+
 
 
 
 ## Step 3 - Install Hadoop native IO binary
 Hadoop on Linux includes optional Native IO support. However Native IO is mandatory on Windows and without it you will not be able to get your installation working. The Windows native IO libraries are not included as part of Apache Hadoop release. Thus we need to build and install it.
 
-The following repository already pre-built Hadoop Windows native libraries:
+infoThe following repository already pre-built Hadoop Windows native libraries:
 
 https://github.com/ruslanmv/How-to-install-Hadoop-on-Windows/tree/master/winutils/hadoop-3.3.0-YARN-8246/bin
 
@@ -95,12 +114,12 @@ First you click the windows button and type environment
 
 ### Configure  Environment variables
 
-We configure **JAVA_HOME** system environment variable
+We configure **JAVA_HOME** environment variable
 
 by adding new  environment variable.
 
 Variable name : `JAVA_HOME`
-Variable value:  `C:\Program Files\Java\jre1.8.0_471`
+Variable value:  `C:\Java\jre1.8.0_361`
 
 
 
