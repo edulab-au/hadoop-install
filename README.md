@@ -48,8 +48,7 @@ After the unzip command is completed we have to install the Java.
 
 Java is required to run Hadoop. If you have not installed Java , please install it.
 
-You can install Java 8 from the following page [here](https://www.oracle.com/it/java/technologies/javase/javase8-archive-downloads.html#license-lightbox). I am choosing the Java **SE Runtime Environment** and I choose the Windows X64 version by 
-https://javadl.oracle.com/webapps/download/AutoDL?BundleId=247948_0ae14417abb444ebb02b9815e2103550
+You can install Java 8 from the following page [here](https://www.oracle.com/anz/java/technologies/javase/javase8u211-later-archive-downloads.html). I am choosing the Java **SE Runtime Environment** and I choose the Windows X64 Compressed Archive version.
 
 After finishing the file download we open a new command prompt, we should unpack the package
 
@@ -68,7 +67,7 @@ mkdir C:\Java
 then run the following command to unzip:
 
 ```
-tar -xvzf  jre-8u361-windows-x64.tar.gz -C C:\Java\
+tar -xvzf  jre-8u471-windows-x64.tar.gz -C C:\Java\
 ```
 
 
@@ -119,7 +118,7 @@ We configure **JAVA_HOME** environment variable
 by adding new  environment variable.
 
 Variable name : `JAVA_HOME`
-Variable value:  `C:\Java\jre1.8.0_361`
+Variable value:  `C:\Java\jre1.8.0_471`
 
 
 
@@ -166,9 +165,9 @@ java -version
 you will have 
 
 ```
-java version "1.8.0_361"
-Java(TM) SE Runtime Environment (build 1.8.0_361-b09)
-Java HotSpot(TM) 64-Bit Server VM (build 25.361-b09, mixed mode)
+java version "1.8.0_471"
+Java(TM) SE Runtime Environment (build 1.8.0_471-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.471-b09, mixed mode)
 ```
 
 You should also be able to run the following command:
@@ -178,9 +177,9 @@ hadoop -version
 ```
 
 ```
-java version "1.8.0_361"
-Java(TM) SE Runtime Environment (build 1.8.0_361-b09)
-Java HotSpot(TM) 64-Bit Server VM (build 25.361-b09, mixed mode)
+java version "1.8.0_471"
+Java(TM) SE Runtime Environment (build 1.8.0_471-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.471-b09, mixed mode)
 ```
 
 
@@ -298,9 +297,30 @@ Edit file **yarn-site.xml** in %HADOOP_HOME%\etc\hadoop folder.
 
 ![image-20230507133653643](assets/images/posts/README/image-20230507133653643.png)
 
+### Step 7 - Replace sbin/start-dfs.cmd and sbin/start-yarn.cmd from the github
+
+Windows 11 has new Terminal Console enabled by default which does not pass Title to the process name therefore stopping the resources fails. Updated script forces the old console to start Hadoop processes.
+
+Edit file **start-dfs.cmd** in %HADOOP_HOME%\sbin folder.
+
+```
+start "Apache Hadoop Distribution - hadoop   namenode" conhost.exe cmd /c hadoop namenode
+start "Apache Hadoop Distribution - hadoop   datanode" conhost.exe cmd /c hadoop datanode
+```
+
+Edit file **start-yarn.cmd** in %HADOOP_HOME%\sbin folder.
+
+```
+rem start resourceManager
+start "Apache Hadoop Distribution - yarn   resourcemanager" conhost.exe cmd /c yarn resourcemanager
+@rem start nodeManager
+start "Apache Hadoop Distribution - yarn   nodemanager" conhost.exe cmd /c yarn nodemanager
+@rem start proxyserver
+@rem start "Apache Hadoop Distribution - yarn   proxyserver" conhost.exe cmd /c yarn proxyserver
+```
 
 
-### Step 7 - Initialise HDFS 
+### Step 8 - Initialise HDFS 
 
 Run the following command in Command Prompt 
 
@@ -312,7 +332,7 @@ The following is an example when it is formatted successfully:
 
 ![image-20230507133808803](assets/images/posts/README/image-20230507133808803.png)
 
-### Step 8 - Start HDFS daemons 
+### Step 9 - Start HDFS daemons 
 
 Run the following command to start HDFS daemons in Command Prompt:
 
@@ -339,7 +359,7 @@ You can also navigate to a data node UI:
 
 ![image-20230507134148506](assets/images/posts/README/image-20230507134148506.png)
 
-### Step 9 - Start YARN daemons
+### Step 10 - Start YARN daemons
 
 warning You may encounter permission issues if you start YARN daemons using normal user. To ensure you don't encounter any issues. Please open a Command Prompt window using Run as administrator.
 
@@ -357,5 +377,6 @@ Similarly two Command Prompt windows will open: one for resource manager and ano
 You can verify YARN resource manager UI when all services are started successfully. 
 
 http://localhost:8088
+http://localhost:9870
 
 ![](assets/images/posts/README/image-20230508.jpg)
